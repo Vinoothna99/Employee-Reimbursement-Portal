@@ -1,0 +1,140 @@
+
+
+<mat-toolbar color="primary">
+    
+  <span><button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#exampleModal"
+    (click)="addClick()"
+    data-backdrop="static" data-keyboard="false">
+    
+        New Claim
+      </button></span>
+  
+  <span class="fill-space"></span>
+  <span></span>
+
+  <span><button mat-icon-button class="rightButtons" (click)="Logout()" >
+    <mat-icon>logout</mat-icon>
+  </button></span>
+    
+    
+  </mat-toolbar>
+
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title" id="exampleModalLabel">{{ModalTitle}}</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+          (click)="closeClick()">
+        </button>
+
+        </div>
+<div class="d-flex flex-row">
+        <div class="modal-body">
+
+          <div *ngIf="ActivateAddEdit">
+            <div class="form-group-row" style="width:60%"   #userLoginForm >
+
+              <label class="col-sm-10 col-form-label" >Date</label>
+              <div class="col-sm-10">
+                <input type="date" class="validate" [(ngModel)]="getClaims.Date"  required>
+             
+              </div>
+
+              <label class="col-sm-10 col-form-label" >Request Type</label>
+              <div class="col-sm-10">
+                
+                <select class="form-control validate" [(ngModel)]="getClaims.ClaimType" required>
+                  <option>--Select--</option>
+                  <option>Medical</option>
+                  <option>Travel</option>
+                  <option>Food</option>
+                  <option>Entertainment</option>
+                  <option>Miscellaneous</option>
+                </select>
+              </div>
+              <div class="col-sm-10">
+                <input type="text" class="validate form-control" [(ngModel)]="getClaims.ClaimValue" placeholder="ClaimValue" required [pattern]="rx" required>
+              </div>
+              <label class="col-sm-10 col-form-label" >Currency</label>
+              <div class="col-sm-10">
+                
+                <select class="form-control validate" [(ngModel)]="getClaims.Currency" required>
+                  <option>--Select--</option>
+                  <option>INR</option>
+                  <option>USD</option>
+                  <option>Euro</option>
+                  
+                </select>
+              </div>
+              
+              <div class="ml-3 bd-highlight" style="width:40%">
+                <img [src]=PhotoFilePath height="250px;" width="200px;">
+                <input type="file" (change)="uploadPhoto($event)" class="mt-2"/>
+              </div>
+              <div class="col-sm-10">
+                <button  (click)="addClaim()" *ngIf="getClaims.Id==0" class="btn btn-accent">Add</button>
+              </div>
+              <div class="col-sm-10">
+                <button (click)="updateClaim()" *ngIf="getClaims.Id!=0" class="btn btn-accent">Edit</button>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+        </div>
+       
+      </div>
+    </div>
+  </div>
+  
+  <div class="container">
+    
+
+<br>
+<br>
+    
+ 
+    <table class="table table-striped">
+      <thead>
+          <tr>
+              <th>Date</th>
+              <th>Reimbursement Type</th>
+              <th>Requested Value</th>
+              <th>Currency</th>
+              <th>Request Phase</th>
+              <th>Approved Value</th>
+              <th>Receipt Attached</th>
+          </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let dataItem of userClaims">
+            <td>{{dataItem.Date}}</td>
+            <td>{{dataItem.ClaimType}}</td>
+            <td>{{dataItem.ClaimValue}}</td>
+            <td>{{dataItem.Currency}}</td>
+            
+            <td>{{dataItem.ClaimPhase}}</td>
+            <td>{{dataItem.ApprovedValue}}</td>
+            
+            <td *ngIf="dataItem.ReceiptPhotoFileName!=''">
+                Yes
+            </td>
+
+            <td *ngIf="dataItem.ReceiptPhotoFileName==''">
+              No
+            </td>
+            <td ><button *ngIf="dataItem.ClaimPhase!='Processed'"  type="button" class="btn btn-accent mr-1" data-bs-toggle="modal" data-bs-target="#exampleModal"
+              (click)="editClick(dataItem)"
+              data-backdrop="static" data-keyboard="false"><mat-icon>edit</mat-icon></button></td>
+            <td><button *ngIf="dataItem.ClaimPhase!='Processed'" type="button" class="btn btn-accent mr-1"
+              (click)="deleteClick(dataItem)"><mat-icon>delete</mat-icon></button></td>
+          </tr>
+    </tbody>
+  </table>
+  
+
+    
+ <router-outlet></router-outlet>
+</div>

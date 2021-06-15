@@ -1,0 +1,176 @@
+<mat-toolbar color="primary">
+    
+  <span>Admin</span>
+  
+  <span class="fill-space"></span>
+  <span></span>
+
+  <span><button mat-icon-button class="rightButtons" (click)="Logout()" >
+    <mat-icon>logout</mat-icon>
+  </button></span>
+    
+    
+  </mat-toolbar>
+
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title" id="exampleModalLabel">{{ModalTitle}}</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+          (click)="closeClick()">
+        </button>
+
+        </div>
+
+        <div class="modal-body">
+
+          <div *ngIf="ActivateAddEdit">
+            <div class="row">
+
+              <div class="col-sm-10">
+                <input type="text" class="form-control" [(ngModel)]="getClaims.ApprovedBy" placeholder="Approved By">
+              </div>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" [(ngModel)]="getClaims.ApprovedValue" placeholder="Approve Amount">
+              </div>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" [(ngModel)]="getClaims.InternalNotes" placeholder="Additional comments">
+              </div>
+              
+
+              
+              <div class="col-sm-10">
+                <button (click)="approveClaim()"  class="btn btn-accent">Approve</button>
+              </div>
+            </div>
+          </div>
+        </div>
+       
+      </div>
+    </div>
+  </div>
+  
+
+  <!--Mat Tab-->
+
+  <div class="login-page">
+    <mat-card class="card">
+      
+    <mat-tab-group mat-stretch-tabs class="example-stretched-tabs">
+
+<!--Pending Claims-->     
+        <mat-tab label="Pending Claims">
+            <mat-card-content>
+              
+              <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>
+                         
+                          Employee Email</th>
+                        <th>Request Type</th>
+                        <th>Requested Value</th>
+                        <th>Currency</th>
+                        <th>Receipt URL</th>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let dataItem of userPendingClaims">
+                      <td>{{dataItem.Date}}</td>
+                      <td>{{dataItem.UserName}}</td>
+                      <td>{{dataItem.ClaimType}}</td>
+                      <td>{{dataItem.ClaimValue}}</td>
+                      <td>{{dataItem.Currency}}</td>
+                      <td>{{dataItem.ReceiptPhotoFileName}}</td>
+                      
+                      
+                      <td ><button   type="button" class="btn btn-primary mr-1" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                        (click)="approveClick(dataItem)"
+                        data-backdrop="static" data-keyboard="false"><mat-icon>done_all</mat-icon></button></td>
+                      <td><button  type="button" class="btn btn-primary mr-1"
+                        (click)="declineClaim(dataItem)"><mat-icon>delete_sweep</mat-icon></button></td>
+                    </tr>
+              </tbody>
+            </table>
+            </mat-card-content>
+
+
+
+
+<!--Approved Claims-->
+
+
+        </mat-tab>
+        <mat-tab label="Approved Claims">
+            <mat-card-content>
+              <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Employee Email</th>
+                        <th>Request Type</th>
+                        <th>Requested Value</th>
+                        <th>Currency</th>
+                        <th>Receipt URL</th>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let dataItem of userApprovedClaims">
+                      <td>{{dataItem.Date}}</td>
+                      <td>{{dataItem.UserName}}</td>
+                      <td>{{dataItem.ClaimType}}</td>
+                      <td>{{dataItem.ClaimValue}}</td>
+                      <td>{{dataItem.Currency}}</td>
+                      <td>{{dataItem.ReceiptPhotoFileName}}</td>
+                      
+                     
+                    </tr>
+              </tbody>
+            </table>
+            </mat-card-content>
+        </mat-tab>
+
+
+<!--Declined Claims-->
+
+        <mat-tab label="Declined Claims">
+          <mat-card-content>
+            <table class="table table-striped">
+              <thead>
+                  <tr>
+                      <th>Date</th>
+                      <th>Employee Email</th>
+                      <th>Request Type</th>
+                      <th>Requested Value</th>
+                      <th>Currency</th>
+                      <th>Receipt URL</th>
+                      
+                  </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let dataItem of userDeclinedClaims">
+                    <td>{{dataItem.Date}}</td>
+                    <td>{{dataItem.UserName}}</td>
+                    <td>{{dataItem.ClaimType}}</td>
+                    <td>{{dataItem.ClaimValue}}</td>
+                    <td>{{dataItem.Currency}}</td>
+                    <td>{{dataItem.ReceiptPhotoFileName}}</td>
+                    
+                    
+                    
+                  </tr>
+            </tbody>
+          </table>
+          </mat-card-content>
+        </mat-tab>
+
+
+      </mat-tab-group>
+    </mat-card>
+</div>
+
+
